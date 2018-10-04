@@ -4,15 +4,19 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DB extends SQLiteOpenHelper {
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
+public class DB extends SQLiteAssetHelper {
 
-    public DB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    private static  final String DATABASE_NAME="daos_sqlite.db";
+    private static final int DATABASE_VERSION=1;
+
+    public DB(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase baseDeDatos) {
+
+    /** public void onCreate(SQLiteDatabase baseDeDatos) {
 
         baseDeDatos.execSQL("CREATE TABLE IF NOT EXISTS mae_clientes" +
                 "(cli_id int primary key not null,cli_rut varchar(12),cli_nombre varchar(150)," +
@@ -96,5 +100,5 @@ public class DB extends SQLiteOpenHelper {
 
         onCreate(db);
 
-    }
+    }**/
 }

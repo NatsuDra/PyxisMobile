@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -59,7 +60,7 @@ public class MenuPrincipal extends AppCompatActivity
 
         //ESTABLECE EL FRAMENTS INCIO COMO PRINCIPAL Y SE VISUALIZA AL INICIAR
         Fragment fragment= new InicioFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.content_menu_principal,fragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.contenedor,fragment).commit();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -91,6 +92,7 @@ public class MenuPrincipal extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(this, "Cerrando Sección", Toast.LENGTH_SHORT).show();
             finish();
             return true;
         }
@@ -104,25 +106,36 @@ public class MenuPrincipal extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Fragment mifragment=null;//android support 24 esa elejir
-        boolean fragmentSelecionado=false;
+        //Fragment mifragment=null;//android support 24 esa elejir
+
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("usuario",usuario);
 
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+
+
         if (id == R.id.nav_inicio) {
-            mifragment= new InicioFragment();
-            fragmentSelecionado=true;
-            Toast.makeText(getBaseContext(),"Inicio",Toast.LENGTH_SHORT).show();
+            InicioFragment mifragment= new InicioFragment();
             mifragment.setArguments(bundle);
+
+            Toast.makeText(getBaseContext(),"Inicio",Toast.LENGTH_SHORT).show();
+            fragmentTransaction.replace(R.id.contenedor,mifragment).commit();
+
+
+
 
         } else if (id == R.id.nav_crear_nv) {
 
-            mifragment= new CrearNVFragment();
-            fragmentSelecionado=true;
+           CrearNVFragment  mifragment= new CrearNVFragment();
+
             mifragment.setArguments(bundle);
 
             Toast.makeText(getBaseContext(),"Crear Nota de Venta",Toast.LENGTH_SHORT).show();
+
+            fragmentTransaction.replace(R.id.contenedor,mifragment).commit();
+
         } else if (id == R.id.nav_ver_nv) {
             Toast.makeText(getBaseContext(),"Ver Nota de Venta",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_clientes) {
@@ -135,10 +148,10 @@ public class MenuPrincipal extends AppCompatActivity
             Toast.makeText(getBaseContext(),"Send",Toast.LENGTH_SHORT).show();
         }
 
-        if(fragmentSelecionado){
+       /* if(fragmentSelecionado){
             getSupportFragmentManager().beginTransaction().replace(R.id.content_menu_principal,mifragment).commit();
 
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

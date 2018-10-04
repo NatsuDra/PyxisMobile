@@ -9,4 +9,12 @@
     tools:context=".MenuPrincipal"
     tools:showIn="@layout/app_bar_menu_principal">
 
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/contenedor"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
 </android.support.constraint.ConstraintLayout>

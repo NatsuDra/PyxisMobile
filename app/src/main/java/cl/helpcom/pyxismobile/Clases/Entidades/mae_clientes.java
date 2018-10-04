@@ -1,6 +1,8 @@
 package cl.helpcom.pyxismobile.Clases.Entidades;
 
-public class mae_clientes {
+import java.io.Serializable;
+
+public class mae_clientes implements Serializable {
 
     private int clid_id;
     private String cli_rut;

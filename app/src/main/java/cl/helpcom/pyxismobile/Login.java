@@ -67,11 +67,11 @@ public class Login extends AppCompatActivity {
                 String user = ((EditText) findViewById(R.id.txtUsuario)).getText().toString();
                 String pass = ((EditText) findViewById(R.id.txtPassword)).getText().toString();
                 //attemptLogin();
-                DB con = new DB(Login.this, "db_nota_venta_daos", null, 1);
+                DB con = new DB(Login.this);
                 SQLiteDatabase database = con.getWritableDatabase();
 
                 String sql="SELECT usu_nusuario,usu_password,usu_nombre,per_id,car_id,sec_id,usu_activo,ven_id,usu_su,usu_telefono FROM mae_usuarios " +
-                        "WHERE usu_nusuario='"+user+"' AND usu_password='"+pass+"' AND usu_activo=0";
+                        "WHERE usu_nusuario='"+user+"' AND usu_password='"+pass+"' AND usu_activo=1";
 
                 if (!user.isEmpty() && !pass.isEmpty()){
                    // MostrarLocalizacion();
@@ -98,9 +98,12 @@ public class Login extends AppCompatActivity {
 
                         startActivity(principal);
                         finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"El usuario no existe",Toast.LENGTH_SHORT).show();
+                        database.close();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(),"El usuario no existe",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Debe completar los campos",Toast.LENGTH_SHORT).show();
                     database.close();
                 }
             }

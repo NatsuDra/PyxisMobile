@@ -12,21 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cl.helpcom.pyxismobile.BuscarCliente;
 import cl.helpcom.pyxismobile.Clases.Entidades.mae_clientes;
 import cl.helpcom.pyxismobile.Clases.Entidades.mae_usuarios;
 import cl.helpcom.pyxismobile.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CrearNVFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CrearNVFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CrearNVFragment extends Fragment implements BuscarClienteFragment.OnFragmentInteractionListener {
+public class CrearNVFragment extends Fragment  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -38,24 +31,17 @@ public class CrearNVFragment extends Fragment implements BuscarClienteFragment.O
 
     private OnFragmentInteractionListener mListener;
 
-    private static mae_usuarios usuario=null;
-    private static mae_clientes cliente=null;
+    public static mae_usuarios usuario=null;
+    public static mae_clientes cliente=null;
     View vista;
-    TextView txtVendedor,txtCliente;
+    public static TextView txtVendedor,txtCliente;
     Button btnAyudaCliente;
 
     public CrearNVFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CrearNVFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
     public static CrearNVFragment newInstance(String param1, String param2) {
         CrearNVFragment fragment = new CrearNVFragment();
@@ -85,21 +71,32 @@ public class CrearNVFragment extends Fragment implements BuscarClienteFragment.O
 
         txtVendedor.setText("Vendedor: "+usuario.getUsu_nombre());
 
+        txtCliente.setEnabled(true);
 
         btnAyudaCliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txtCliente.setText("Juanito Perez Pereira");
+                txtCliente.setText("");
                 Intent buscarCliente = new Intent(getContext(),BuscarCliente.class);
 
                 startActivity(buscarCliente);
+
             }
         });
+
+        //Toast.makeText(getContext(), ""+cliente.getCli_comuna(), Toast.LENGTH_SHORT).show();
+
 
 
         return  vista;
     }
 
+    public static void cargarCliente(mae_clientes cliente){
+         CrearNVFragment.cliente=cliente;
+        if(cliente!=null){
+     //       txtCliente.setText(cliente.getCli_nombre());
+        }
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -124,10 +121,7 @@ public class CrearNVFragment extends Fragment implements BuscarClienteFragment.O
         mListener = null;
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        
-    }
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
