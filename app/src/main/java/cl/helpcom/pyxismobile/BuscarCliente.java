@@ -1,5 +1,6 @@
 package cl.helpcom.pyxismobile;
 
+import android.app.FragmentTransaction;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -43,8 +46,13 @@ public class BuscarCliente extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                CrearNVFragment.txtCliente.setText(""+listaClientes.get(position).getCli_nombre());
-                CrearNVFragment.cliente=listaClientes.get(position);
+                //CrearNVFragment.txtCliente.setText(""+listaClientes.get(position).getCli_nombre());
+                //CrearNVFragment.cliente=listaClientes.get(position);
+                Gson gson= new Gson();
+                String json = gson.toJson(listaClientes.get(position));
+                android.support.v4.app.FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                CrearNVFragment fragment= CrearNVFragment.nueva(json);
+                fragmentTransaction.replace(R.id.contenedor,fragment).commit();
                 finish();
             }
         });

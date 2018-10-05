@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import cl.helpcom.pyxismobile.BuscarCliente;
 import cl.helpcom.pyxismobile.BuscarProducto;
@@ -32,10 +36,13 @@ public class CrearNVFragment extends Fragment  {
     private OnFragmentInteractionListener mListener;
 
     public static mae_usuarios usuario=null;
-    public static mae_clientes cliente=null;
+   // public static mae_clientes cliente=null;
     View vista;
     public static TextView txtVendedor,txtCliente;
     Button btnAyudaCliente, btnAyudaProductos, btnProdutoOk;
+    public static String CLIENTE_JSON;
+    private TableLayout tableLayout;
+
 
     public CrearNVFragment() {
         // Required empty public constructor
@@ -58,6 +65,28 @@ public class CrearNVFragment extends Fragment  {
         if (getArguments() != null) {
             usuario = (mae_usuarios) getArguments().getSerializable("usuario");
         }
+
+        try{
+            CLIENTE_JSON = getArguments().getString("CLIENTE");
+            Gson gson = new Gson();
+             mae_clientes cliente = gson.fromJson(CLIENTE_JSON,mae_clientes.class);
+            Toast.makeText(getContext(), ""+cliente.getCli_ciudad(), Toast.LENGTH_SHORT).show();
+            txtCliente.setText(cliente.getCli_nombre());
+        }catch (Exception e){
+            Toast.makeText(getContext(), "Error "+e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("ERROR CLIENTE ",e.getMessage().toString());
+
+        }
+    }
+
+    public static CrearNVFragment nueva(String cliente_json){
+
+        CrearNVFragment framnet = new CrearNVFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("CLIENTE",cliente_json);
+        framnet.setArguments(bundle);
+
+        return framnet;
     }
 
     @Override
@@ -70,8 +99,9 @@ public class CrearNVFragment extends Fragment  {
         btnAyudaCliente = vista.findViewById(R.id.btnAyudaCliente_fragment_crear_nv);
         btnAyudaProductos = vista.findViewById(R.id.btnAyudaProducto_frament_crear_nv);
         btnProdutoOk = vista.findViewById(R.id.btnOkProducto_frament_crear_nv);
+        tableLayout = vista.findViewById(R.id.table_fragmentCrearNV);
 
-        txtVendedor.setText("Vendedor: "+usuario.getUsu_nombre());
+        //txtVendedor.setText("Vendedor: "+usuario.getUsu_nombre());
 
         txtCliente.setEnabled(false);
 
@@ -112,12 +142,7 @@ public class CrearNVFragment extends Fragment  {
         return  vista;
     }
 
-    public static void cargarCliente(mae_clientes cliente){
-         CrearNVFragment.cliente=cliente;
-        if(cliente!=null){
-     //       txtCliente.setText(cliente.getCli_nombre());
-        }
-    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -125,16 +150,7 @@ public class CrearNVFragment extends Fragment  {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+
 
     @Override
     public void onDetach() {
