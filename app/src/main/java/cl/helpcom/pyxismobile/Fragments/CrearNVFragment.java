@@ -84,6 +84,8 @@ public class CrearNVFragment extends Fragment  {
         CrearNVFragment framnet = new CrearNVFragment();
         Bundle bundle = new Bundle();
         bundle.putString("CLIENTE",cliente_json);
+
+        bundle.putSerializable("usuario",usuario);
         framnet.setArguments(bundle);
 
         return framnet;
@@ -101,7 +103,7 @@ public class CrearNVFragment extends Fragment  {
         btnProdutoOk = vista.findViewById(R.id.btnOkProducto_frament_crear_nv);
         tableLayout = vista.findViewById(R.id.table_fragmentCrearNV);
 
-        //txtVendedor.setText("Vendedor: "+usuario.getUsu_nombre());
+        txtVendedor.setText("Vendedor: "+usuario.getUsu_nombre());
 
         txtCliente.setEnabled(false);
 

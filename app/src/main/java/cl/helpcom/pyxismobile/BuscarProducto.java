@@ -15,11 +15,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import cl.helpcom.pyxismobile.Clases.DB;
-import cl.helpcom.pyxismobile.Clases.Entidades.mae_clientes;
 import cl.helpcom.pyxismobile.Clases.Entidades.mae_productos;
-import cl.helpcom.pyxismobile.Fragments.CrearNVFragment;
 
-import static cl.helpcom.pyxismobile.Fragments.CrearNVFragment.cliente;
 
 public class BuscarProducto extends AppCompatActivity {
 
