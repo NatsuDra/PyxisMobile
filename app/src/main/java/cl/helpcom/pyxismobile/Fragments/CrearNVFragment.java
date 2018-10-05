@@ -15,13 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cl.helpcom.pyxismobile.BuscarCliente;
+import cl.helpcom.pyxismobile.BuscarProducto;
 import cl.helpcom.pyxismobile.Clases.Entidades.mae_clientes;
 import cl.helpcom.pyxismobile.Clases.Entidades.mae_usuarios;
 import cl.helpcom.pyxismobile.R;
 
 public class CrearNVFragment extends Fragment  {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -35,7 +35,7 @@ public class CrearNVFragment extends Fragment  {
     public static mae_clientes cliente=null;
     View vista;
     public static TextView txtVendedor,txtCliente;
-    Button btnAyudaCliente;
+    Button btnAyudaCliente, btnAyudaProductos, btnProdutoOk;
 
     public CrearNVFragment() {
         // Required empty public constructor
@@ -68,15 +68,17 @@ public class CrearNVFragment extends Fragment  {
         txtVendedor = vista.findViewById(R.id.txtVendedor_fragment_crear_nv);
         txtCliente = vista.findViewById(R.id.txtCliente_fragment_crear_nv);
         btnAyudaCliente = vista.findViewById(R.id.btnAyudaCliente_fragment_crear_nv);
+        btnAyudaProductos = vista.findViewById(R.id.btnAyudaProducto_frament_crear_nv);
+        btnProdutoOk = vista.findViewById(R.id.btnOkProducto_frament_crear_nv);
 
         txtVendedor.setText("Vendedor: "+usuario.getUsu_nombre());
 
-        txtCliente.setEnabled(true);
+        txtCliente.setEnabled(false);
 
         btnAyudaCliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txtCliente.setText("");
+                //txtCliente.setText("");
                 Intent buscarCliente = new Intent(getContext(),BuscarCliente.class);
 
                 startActivity(buscarCliente);
@@ -84,8 +86,27 @@ public class CrearNVFragment extends Fragment  {
             }
         });
 
-        //Toast.makeText(getContext(), ""+cliente.getCli_comuna(), Toast.LENGTH_SHORT).show();
+        btnAyudaProductos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent buscarProductos= new Intent(getContext(),BuscarProducto.class);
+
+                Toast.makeText(getContext(), "Listando productos", Toast.LENGTH_SHORT).show();
+
+                startActivity(buscarProductos);
+
+            }
+        });
+
+        btnProdutoOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getContext(), "Producto Agregado", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
 
         return  vista;

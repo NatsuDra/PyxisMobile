@@ -30,7 +30,8 @@
         <activity
             android:name=".MenuPrincipal"
             android:label="@string/title_activity_menu_principal" />
-        <activity android:name=".BuscarCliente"></activity>
+        <activity android:name=".BuscarCliente" />
+        <activity android:name=".BuscarProducto"></activity>
     </application>
 
 </manifest>
