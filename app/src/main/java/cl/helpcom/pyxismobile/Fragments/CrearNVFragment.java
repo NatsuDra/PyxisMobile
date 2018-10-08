@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -18,10 +19,13 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 import cl.helpcom.pyxismobile.BuscarCliente;
 import cl.helpcom.pyxismobile.BuscarProducto;
 import cl.helpcom.pyxismobile.Clases.Entidades.mae_clientes;
 import cl.helpcom.pyxismobile.Clases.Entidades.mae_usuarios;
+import cl.helpcom.pyxismobile.Clases.TablaDynamica;
 import cl.helpcom.pyxismobile.R;
 
 public class CrearNVFragment extends Fragment  {
@@ -43,6 +47,8 @@ public class CrearNVFragment extends Fragment  {
     public static String CLIENTE_JSON;
     private TableLayout tableLayout;
 
+    private String[] nombreColumnas={"Codigo Plu","Nombre Producto","Precio","Descuento","Cantidad","Total"};
+    private ArrayList<String[]> rows = new ArrayList<>();
 
     public CrearNVFragment() {
         // Required empty public constructor
@@ -62,16 +68,21 @@ public class CrearNVFragment extends Fragment  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+
+        try{
+        if (getArguments().getSerializable("usuario") != null) {
             usuario = (mae_usuarios) getArguments().getSerializable("usuario");
         }
 
-        try{
-            CLIENTE_JSON = getArguments().getString("CLIENTE");
-            Gson gson = new Gson();
-             mae_clientes cliente = gson.fromJson(CLIENTE_JSON,mae_clientes.class);
-            Toast.makeText(getContext(), ""+cliente.getCli_ciudad(), Toast.LENGTH_SHORT).show();
-            txtCliente.setText(cliente.getCli_nombre());
+
+            if(getArguments().get("CLIENTE")!=null){
+                CLIENTE_JSON = getArguments().getString("CLIENTE");
+                Gson gson = new Gson();
+                mae_clientes cliente = gson.fromJson(CLIENTE_JSON,mae_clientes.class);
+                Toast.makeText(getContext(), ""+cliente.getCli_ciudad(), Toast.LENGTH_SHORT).show();
+                txtCliente.setText(cliente.getCli_nombre());
+            }
+
         }catch (Exception e){
             Toast.makeText(getContext(), "Error "+e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.e("ERROR CLIENTE ",e.getMessage().toString());
@@ -105,8 +116,14 @@ public class CrearNVFragment extends Fragment  {
 
         txtVendedor.setText("Vendedor: "+usuario.getUsu_nombre());
 
+
         txtCliente.setEnabled(false);
 
+        //TABLA PRODUCTOS
+        TablaDynamica tablaDynamica= new TablaDynamica(tableLayout,getContext());
+        tablaDynamica.addHeader(nombreColumnas);
+        tablaDynamica.addData(getProductos());
+        //----------------------------------------------------------------------
         btnAyudaCliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +161,18 @@ public class CrearNVFragment extends Fragment  {
         return  vista;
     }
 
+
+    //----------------------------------------------------------------------------------------------
+    private ArrayList<String[]> getProductos(){
+        rows.add(new String[]{"1","Tomate","3","100","50","4","350"});
+        rows.add(new String[]{"2","Peraz 1k","3","200","10","1","190"});
+        rows.add(new String[]{"3","Chocolate","3","500","0","1","500"});
+        rows.add(new String[]{"4","Coca-cola-1L","3","1000","100","1","900"});
+
+        return rows;
+    }
+
+    //----------------------------------------------------------------------------------------------
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
