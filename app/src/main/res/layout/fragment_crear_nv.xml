@@ -88,6 +88,7 @@
 
 
                     <EditText
+                        android:id="@+id/txtCodigoPluProducto_fragment_crear_nv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10sp"
@@ -100,20 +101,23 @@
                         android:text="..."
                         android:layout_marginLeft="10sp"/>
                     <EditText
+                        android:id="@+id/txtNombreProducto_fragment_crear_nv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10sp"
                         android:hint="Nombre producto"
-                        android:enabled="false"
+                        android:enabled="true"
                         android:inputType="text"/>
                     <EditText
+                        android:id="@+id/txtPrecioUnitarioProducto_fragment_crear_nv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10sp"
                         android:hint="Precio Unitario"
-                        android:enabled="false"
+                        android:enabled="true"
                         android:inputType="number"/>
                     <EditText
+                        android:id="@+id/txtCantidadProducto_fragment_crear_nv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10sp"
@@ -121,16 +125,18 @@
                         android:inputType="number"/>
 
                     <EditText
+                        android:id="@+id/txtDescuentoProducto_fragment_crear_nv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10sp"
                         android:hint="Descuento"
                         android:inputType="number"/>
                     <EditText
+                        android:id="@+id/txtTotalProducto_fragment_crear_nv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10sp"
-                        android:enabled="false"
+                        android:enabled="true"
                         android:hint="Total"
                         android:inputType="number"/>
                     <Button

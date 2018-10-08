@@ -2,6 +2,7 @@ package cl.helpcom.pyxismobile.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,13 +43,14 @@ public class CrearNVFragment extends Fragment  {
     public static mae_usuarios usuario=null;
    // public static mae_clientes cliente=null;
     View vista;
-    public static TextView txtVendedor,txtCliente;
+    public static TextView txtVendedor,txtCliente,txtCodigoPluProducto,txtNombreProducto,txtPrecioUnitarioProducto,txtCantidadProducto,txtDescuentoProducto,txtTotalProducto;
     Button btnAyudaCliente, btnAyudaProductos, btnProdutoOk;
     public static String CLIENTE_JSON;
     private TableLayout tableLayout;
 
-    private String[] nombreColumnas={"Codigo Plu","Nombre Producto","Precio","Descuento","Cantidad","Total"};
-    private ArrayList<String[]> rows = new ArrayList<>();
+    private String[] nombreColumnas={"CodigoPlu","NombreProducto","Precio","Cantidad","Descuento","Total"};
+    private ArrayList<String[]> rows = new ArrayList<String[]>();
+    TablaDynamica tablaDynamica;
 
     public CrearNVFragment() {
         // Required empty public constructor
@@ -114,15 +116,27 @@ public class CrearNVFragment extends Fragment  {
         btnProdutoOk = vista.findViewById(R.id.btnOkProducto_frament_crear_nv);
         tableLayout = vista.findViewById(R.id.table_fragmentCrearNV);
 
+        txtCodigoPluProducto=vista.findViewById(R.id.txtCodigoPluProducto_fragment_crear_nv);
+        txtNombreProducto=vista.findViewById(R.id.txtNombreProducto_fragment_crear_nv);
+        txtPrecioUnitarioProducto=vista.findViewById(R.id.txtPrecioUnitarioProducto_fragment_crear_nv);
+        txtCantidadProducto=vista.findViewById(R.id.txtCantidadProducto_fragment_crear_nv);
+        txtDescuentoProducto=vista.findViewById(R.id.txtDescuentoProducto_fragment_crear_nv);
+        txtTotalProducto=vista.findViewById(R.id.txtTotalProducto_fragment_crear_nv);
+
         txtVendedor.setText("Vendedor: "+usuario.getUsu_nombre());
 
 
         txtCliente.setEnabled(false);
 
         //TABLA PRODUCTOS
-        TablaDynamica tablaDynamica= new TablaDynamica(tableLayout,getContext());
+        tablaDynamica= new TablaDynamica(tableLayout,getContext());
         tablaDynamica.addHeader(nombreColumnas);
         tablaDynamica.addData(getProductos());
+        tablaDynamica.backgroundHeader(Color.parseColor("#558B2F"));
+        tablaDynamica.backgroundData(Color.MAGENTA,Color.LTGRAY);
+        tablaDynamica.lineColor(Color.BLACK);
+        tablaDynamica.textColorData(Color.WHITE);
+        tablaDynamica.textColorHeader(Color.parseColor("#004D40"));
         //----------------------------------------------------------------------
         btnAyudaCliente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,8 +165,12 @@ public class CrearNVFragment extends Fragment  {
         btnProdutoOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(getContext(), "Producto Agregado", Toast.LENGTH_SHORT).show();
+                //agregaProducto();
+               // Toast.makeText(getContext(), "Producto Agregado", Toast.LENGTH_SHORT).show();
+                String[] item = new String[]{txtCodigoPluProducto.getText().toString(),txtNombreProducto.getText().toString(),txtPrecioUnitarioProducto.getText().toString(),
+                        txtCantidadProducto.getText().toString(),txtDescuentoProducto.getText().toString(),txtTotalProducto.getText().toString()};
+                tablaDynamica.addItems(item);
+                tablaDynamica.backgroundData(Color.parseColor("#827717"),Color.parseColor("#C0CA33"));
 
             }
         });
@@ -161,13 +179,19 @@ public class CrearNVFragment extends Fragment  {
         return  vista;
     }
 
+    public void agregaProducto(){
+        String[] item = new String[]{txtCodigoPluProducto.getText().toString(),txtNombreProducto.getText().toString(),txtPrecioUnitarioProducto.getText().toString(),
+                txtCantidadProducto.getText().toString(),txtDescuentoProducto.getText().toString(),txtTotalProducto.getText().toString()};
+        tablaDynamica.addItems(item);
+    }
+
 
     //----------------------------------------------------------------------------------------------
     private ArrayList<String[]> getProductos(){
-        rows.add(new String[]{"1","Tomate","3","100","50","4","350"});
-        rows.add(new String[]{"2","Peraz 1k","3","200","10","1","190"});
-        rows.add(new String[]{"3","Chocolate","3","500","0","1","500"});
-        rows.add(new String[]{"4","Coca-cola-1L","3","1000","100","1","900"});
+        rows.add(new String[]{"1","Tomate","100","4","50","350"});
+        rows.add(new String[]{"2","Peraz 1k","200","1","1","190"});
+        rows.add(new String[]{"3","Chocolate","500","1","0","500"});
+        rows.add(new String[]{"4","Coca-cola-1L","1000","1","100","900"});
 
         return rows;
     }

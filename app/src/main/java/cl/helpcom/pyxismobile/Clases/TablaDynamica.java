@@ -1,10 +1,12 @@
 package cl.helpcom.pyxismobile.Clases;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -45,7 +47,7 @@ public class TablaDynamica {
     private void newCell(){
         txtCell= new TextView(context);
         txtCell.setGravity(Gravity.CENTER);
-        txtCell.setTextSize(25);
+        txtCell.setTextSize(20);
     }
 
     private void createHeader(){
@@ -61,17 +63,23 @@ public class TablaDynamica {
 
     public void createDataTable(){
         String info;
-        for (indexR=1;indexR<=header.length;indexR++){
-            newRow();
-            for (indexC=0;indexC<=header.length;indexC++){
-                newCell();
-                String[] row=data.get(indexR-1);
-                info=(indexC<row.length)?row[indexC]:"";
-                txtCell.setText(info);
-                tableRow.addView(txtCell,newTableRowParams());
+        try {
+            for (indexR=1;indexR<=header.length;indexR++){
+                newRow();
+                for (indexC=0;indexC<header.length;indexC++){
+                    newCell();
+                    String[] row=data.get(indexR-1);
+                    info=(indexC<row.length)?row[indexC]:"";
+                    txtCell.setText(info);
+                    tableRow.addView(txtCell,newTableRowParams());
+                }
+                tableLayout.addView(tableRow);
             }
-            tableLayout.addView(tableRow);
+        }catch (Exception e){
+            Toast.makeText(context, ""+e.toString(), Toast.LENGTH_SHORT).show();
+
         }
+
     }
 
     public void addItems(String[] item){
@@ -85,7 +93,7 @@ public class TablaDynamica {
             txtCell.setText(info);
             tableRow.addView(txtCell,newTableRowParams());
         }
-        tableLayout.addView(tableRow,data.size()-1);
+        tableLayout.addView(tableRow,data.size());
         reColoring();
 
     }
@@ -102,15 +110,20 @@ public class TablaDynamica {
     }
 
     public void backgroundData(int firtColor,int secondColor){
-        for(indexR=1;indexR<=header.length;indexR++){
-            multiColor=!multiColor;
-            for(indexC=0;indexC<header.length;indexC++){
-                txtCell=getCell(indexR,indexC);
-                txtCell.setBackgroundColor((multiColor)?firtColor:secondColor);
+        try {
+            for(indexR=1;indexR<=header.length;indexR++){
+                multiColor=!multiColor;
+                for(indexC=0;indexC<header.length;indexC++){
+                    txtCell=getCell(indexR,indexC);
+                    txtCell.setBackgroundColor((multiColor)?firtColor:secondColor);
+                }
             }
+            this.firtColor=firtColor;
+            this.secondColor=secondColor;
+        }catch (Exception e){
+            Toast.makeText(context, ""+e.toString(), Toast.LENGTH_SHORT).show();
         }
-        this.firtColor=firtColor;
-        this.secondColor=secondColor;
+
     }
 
     public void lineColor(int color){
@@ -121,12 +134,17 @@ public class TablaDynamica {
     }
 
     public void textColorData(int color){
-        for (indexR=1;indexR<=header.length;indexR++){
-            for (indexC=0;indexC<header.length;indexC++){
-                getCell(indexR,indexC).setTextColor(color);
+        try{
+            for (indexR=1;indexR<=header.length;indexR++){
+                for (indexC=0;indexC<header.length;indexC++){
+                    getCell(indexR,indexC).setTextColor(color);
+                }
+                this.textColor=color;
             }
-            this.textColor=color;
+        }catch (Exception e){
+
         }
+
     }
 
     public void textColorHeader(int color){
@@ -140,7 +158,7 @@ public class TablaDynamica {
         indexC=0;
         multiColor=!multiColor;
         while (indexC<header.length){
-            txtCell=getCell(data.size()-1,indexC++);
+            txtCell=getCell(data.size(),indexC++);
             txtCell.setBackgroundColor((multiColor)?firtColor:secondColor);
             txtCell.setTextColor(textColor);
         }
@@ -153,7 +171,7 @@ public class TablaDynamica {
 
     private TableRow.LayoutParams newTableRowParams(){
         TableRow.LayoutParams params= new TableRow.LayoutParams();
-        params.setMargins(1,1,1,1);
+        params.setMargins(2,1,2,1);
         params.weight=1;
         return params;
     }
